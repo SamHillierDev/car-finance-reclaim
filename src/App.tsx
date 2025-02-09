@@ -6,6 +6,7 @@ import ToggleButtonGroup from "./components/ToggleButtonGroup";
 import WarningMessage from "./components/WarningMessage";
 import { FormData } from "./types/FormData";
 import { motorFinanceProviders } from "./utils/constants";
+import { isValidLicensePlate } from "./utils/inputValidations";
 
 function App() {
   const [formData, setFormData] = useState<FormData>({
@@ -17,19 +18,34 @@ function App() {
     purchaseDate: "",
   });
 
+  const [errors, setErrors] = useState<{ vehicleNumber?: string }>({});
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
 
-  const handleButtonClick = (name: keyof FormData, value: string) => {
+    if (name === "vehicleNumber") {
+      if (!isValidLicensePlate(value)) {
+        setErrors((prev) => ({
+          ...prev,
+          vehicleNumber: "Invalid license plate format (e.g., AB12 CDE)",
+        }));
+      } else {
+        setErrors((prev) => ({ ...prev, vehicleNumber: undefined }));
+      }
+    }
+
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (errors.vehicleNumber) {
+      return;
+    }
+
     console.log("Form Data Submitted:", formData);
   };
 
@@ -47,7 +63,9 @@ function App() {
             label="Did you have more than one finance agreement?"
             name="multipleAgreements"
             value={formData.multipleAgreements}
-            onChange={handleButtonClick}
+            onChange={(_, value) =>
+              setFormData((prev) => ({ ...prev, multipleAgreements: value }))
+            }
           />
 
           <AnimatePresence mode="wait">
@@ -87,7 +105,9 @@ function App() {
             label="Do you know your finance agreement policy number?"
             name="policyNumberKnown"
             value={formData.policyNumberKnown}
-            onChange={handleButtonClick}
+            onChange={(_, value) =>
+              setFormData((prev) => ({ ...prev, policyNumberKnown: value }))
+            }
           />
 
           <TextInput
@@ -96,6 +116,7 @@ function App() {
             value={formData.vehicleNumber}
             placeholder="Enter vehicle number plate"
             onChange={handleChange}
+            error={errors.vehicleNumber}
           />
 
           <TextInput
@@ -117,6 +138,7 @@ function App() {
           <button
             type="submit"
             className="w-full cursor-pointer rounded-md bg-blue-500 py-2 text-white transition hover:bg-blue-600"
+            disabled={!!errors.vehicleNumber}
           >
             Submit
           </button>

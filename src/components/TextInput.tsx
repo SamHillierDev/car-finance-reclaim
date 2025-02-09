@@ -5,6 +5,7 @@ interface TextInputProps {
   value: string;
   placeholder?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error?: string;
 }
 
 const TextInput: React.FC<TextInputProps> = ({
@@ -14,9 +15,10 @@ const TextInput: React.FC<TextInputProps> = ({
   value,
   placeholder,
   onChange,
+  error,
 }) => {
   return (
-    <>
+    <div className="flex flex-col">
       <label className="font-medium">{label}</label>
       <input
         type={type}
@@ -24,9 +26,12 @@ const TextInput: React.FC<TextInputProps> = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className="w-full rounded-md border p-2"
+        className={`w-full rounded-md border p-2 ${
+          error ? "border-red-500" : "border-gray-300"
+        }`}
       />
-    </>
+      {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
+    </div>
   );
 };
 
