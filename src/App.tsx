@@ -33,6 +33,11 @@ function App() {
     console.log("Form Data Submitted:", formData);
   };
 
+  const selectedProvider = motorFinanceProviders.find(
+    (provider) => provider.name === formData.financeProvider,
+  );
+  const showProviderWarning = selectedProvider?.warning || false;
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
       <div className="w-full max-w-lg rounded-lg bg-white p-6 shadow-md">
@@ -48,15 +53,12 @@ function App() {
           <AnimatePresence mode="wait">
             {formData.multipleAgreements === "Yes" && (
               <WarningMessage
+                color="yellow"
                 message={[
-                  {
-                    bold: "If they were with the SAME provider:",
-                    text: "No problem, just carry on, you can put more than one financial agreement in.",
-                  },
-                  {
-                    bold: "If they were with DIFFERENT providers:",
-                    text: "You will need to restart this process for each finance provider.",
-                  },
+                  <strong>If they were with the SAME provider:</strong>,
+                  "No problem, just carry on, you can put more than one financial agreement in.",
+                  <strong>If they were with DIFFERENT providers:</strong>,
+                  "You will need to restart this process for each finance provider.",
                 ]}
               />
             )}
@@ -66,9 +68,20 @@ function App() {
             label="Who provided your motor finance?"
             name="financeProvider"
             value={formData.financeProvider}
-            options={motorFinanceProviders}
+            options={motorFinanceProviders.map((provider) => provider.name)}
             onChange={handleChange}
           />
+
+          <AnimatePresence mode="wait">
+            {showProviderWarning && (
+              <WarningMessage
+                color="red"
+                message={[
+                  "This company has already said it didn't engage in discretionary commission arrangements, so we think it's not worth you spending time contacting it to ask.",
+                ]}
+              />
+            )}
+          </AnimatePresence>
 
           <ToggleButtonGroup
             label="Do you know your finance agreement policy number?"
