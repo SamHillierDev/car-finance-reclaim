@@ -1,9 +1,10 @@
 export interface MotorFinanceFormData {
   multipleAgreements: boolean | null;
   financeProvider: string;
+  providerMultipleAgreements: boolean | null;
   policyNumberKnown: boolean | null;
   policyNumber?: string;
-  vehicleNumber: string;
+  vehicleNumber?: string;
   dealerOrBroker?: string;
   purchaseDate?: string;
 }

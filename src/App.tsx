@@ -17,6 +17,7 @@ function App() {
     useState<MotorFinanceFormData>({
       multipleAgreements: null,
       financeProvider: "",
+      providerMultipleAgreements: null,
       policyNumberKnown: null,
       policyNumber: "",
       vehicleNumber: "",

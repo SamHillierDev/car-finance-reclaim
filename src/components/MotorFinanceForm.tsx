@@ -67,7 +67,22 @@ const MotorFinanceForm = ({
       </AnimatePresence>
 
       <ToggleButtonGroup
-        label="Do you know your finance agreement policy number?"
+        label={`With ${selectedProvider?.name || "this provider"}, do you have more than one agreement?`}
+        name="providerMultipleAgreements"
+        value={formData.providerMultipleAgreements}
+        onChange={(_, value) =>
+          onChange({
+            target: { name: "providerMultipleAgreements", value },
+          } as any)
+        }
+      />
+
+      <ToggleButtonGroup
+        label={
+          formData.providerMultipleAgreements
+            ? "Do you know any of your agreement policy numbers?"
+            : "Do you know your finance agreement policy number?"
+        }
         name="policyNumberKnown"
         value={formData.policyNumberKnown}
         onChange={(_, value) =>
@@ -79,7 +94,11 @@ const MotorFinanceForm = ({
 
       {formData.policyNumberKnown && (
         <TextInput
-          label="Policy reference/number"
+          label={
+            formData.providerMultipleAgreements
+              ? "Policy references/numbers"
+              : "Policy reference/number"
+          }
           name="policyNumber"
           value={formData.policyNumber ?? ""}
           placeholder="e.g. 12-123456"
@@ -99,9 +118,15 @@ const MotorFinanceForm = ({
       </AnimatePresence>
 
       <TextInput
-        label="Number plate of vehicle you had finance on"
+        label={
+          formData.providerMultipleAgreements
+            ? formData.policyNumberKnown === false
+              ? "Number plate of one vehicle you had finance on"
+              : "Number plate(s) of the vehicle(s) you financed"
+            : "Number plate of the vehicle you financed"
+        }
         name="vehicleNumber"
-        value={formData.vehicleNumber}
+        value={formData.vehicleNumber ?? ""}
         placeholder="e.g. BG51 SMR"
         onChange={onChange}
         error={errors.vehicleNumber}
@@ -110,7 +135,7 @@ const MotorFinanceForm = ({
       {formData.policyNumberKnown === false && (
         <>
           <TextInput
-            label="The dealer or broker you bought the vehicle from (optional)"
+            label="The dealer or broker you bought the vehicle from? (optional)"
             name="dealerOrBroker"
             value={formData.dealerOrBroker ?? ""}
             placeholder="Enter dealer or broker name"
