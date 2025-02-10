@@ -8,6 +8,8 @@ const PersonalDetailsForm = ({
 }: PersonalDetailsFormProps) => {
   return (
     <div className="space-y-4">
+      <h2 className="text-lg font-semibold text-[#C58F60]">About you</h2>
+
       <TextInput
         label="Your full name"
         name="fullName"

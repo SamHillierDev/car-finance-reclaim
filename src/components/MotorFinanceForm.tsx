@@ -18,6 +18,10 @@ const MotorFinanceForm = ({
 
   return (
     <div className="space-y-4">
+      <h2 className="text-lg font-semibold text-[#C58F60]">
+        About your motor finance agreement
+      </h2>
+
       <ToggleButtonGroup
         label="Did you have more than one finance agreement?"
         name="multipleAgreements"

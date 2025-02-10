@@ -19,7 +19,7 @@ const TextInput: React.FC<TextInputProps> = ({
 }) => {
   return (
     <div className="flex flex-col">
-      <label className="font-medium">{label}</label>
+      <label className="mb-2">{label}</label>
       <input
         type={type}
         name={name}

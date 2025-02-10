@@ -30,8 +30,7 @@ function App() {
     });
 
   const [errors, setErrors] = useState<{ vehicleNumber?: string }>({});
-  const [showGeneratedEmail, setShowGeneratedEmail] =
-    useState<boolean>(false);
+  const [showGeneratedEmail, setShowGeneratedEmail] = useState<boolean>(false);
 
   const handleMotorFinanceChange = (
     e:
@@ -74,7 +73,9 @@ function App() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
       <div className="w-full max-w-lg rounded-lg bg-white p-6 shadow-md">
-        <h2 className="mb-4 text-xl font-semibold">Car Finance Reclaim</h2>
+        <h1 className="mb-4 flex items-center justify-center text-2xl font-medium">
+          Car Finance Reclaim
+        </h1>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <MotorFinanceForm

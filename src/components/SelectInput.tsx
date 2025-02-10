@@ -14,8 +14,8 @@ const SelectInput: React.FC<SelectInputProps> = ({
   onChange,
 }) => {
   return (
-    <>
-      <label className="font-medium">{label}</label>
+    <div className="flex flex-col">
+      <label className="mb-2">{label}</label>
       <select
         name={name}
         value={value}
@@ -28,7 +28,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
           </option>
         ))}
       </select>
-    </>
+    </div>
   );
 };
 
