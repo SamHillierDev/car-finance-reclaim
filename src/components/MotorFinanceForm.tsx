@@ -127,9 +127,11 @@ const MotorFinanceForm = ({
         }
         name="vehicleNumber"
         value={formData.vehicleNumber ?? ""}
-        placeholder="e.g. BG51 SMR"
+        placeholder="ENTER REG"
         onChange={onChange}
         error={errors.vehicleNumber}
+        showGBFlag={true}
+        className="border-gray-400 bg-yellow-200 text-center font-mono tracking-widest uppercase"
       />
 
       {formData.policyNumberKnown === false && (
