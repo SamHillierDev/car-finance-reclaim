@@ -1,68 +1,29 @@
 import { AnimatePresence } from "framer-motion";
-import { useState } from "react";
-import { FormData } from "../types/FormData";
+import { MotorFinanceFormProps } from "../types/FormData";
 import { motorFinanceProviders } from "../utils/constants";
-import { isValidLicensePlate } from "../utils/inputValidations";
 import SelectInput from "./SelectInput";
 import TextInput from "./TextInput";
 import ToggleButtonGroup from "./ToggleButtonGroup";
 import WarningMessage from "./WarningMessage";
 
-const MotorFinanceForm = () => {
-  const [formData, setFormData] = useState<FormData>({
-    multipleAgreements: "",
-    financeProvider: "",
-    policyNumberKnown: "",
-    policyNumber: "",
-    vehicleNumber: "",
-    dealerOrBroker: "",
-    purchaseDate: "",
-  });
-
-  const [errors, setErrors] = useState<{ vehicleNumber?: string }>({});
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-  ) => {
-    const { name, value } = e.target;
-
-    if (name === "vehicleNumber") {
-      if (!isValidLicensePlate(value)) {
-        setErrors((prev) => ({
-          ...prev,
-          vehicleNumber: "Invalid license plate format (e.g., AB12 CDE)",
-        }));
-      } else {
-        setErrors((prev) => ({ ...prev, vehicleNumber: undefined }));
-      }
-    }
-
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (errors.vehicleNumber) {
-      return;
-    }
-
-    console.log("Form Data Submitted:", formData);
-  };
-
+const MotorFinanceForm = ({
+  formData,
+  onChange,
+  errors,
+}: MotorFinanceFormProps) => {
   const selectedProvider = motorFinanceProviders.find(
     (provider) => provider.name === formData.financeProvider,
   );
   const showProviderWarning = selectedProvider?.warning || false;
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="space-y-4">
       <ToggleButtonGroup
         label="Did you have more than one finance agreement?"
         name="multipleAgreements"
         value={formData.multipleAgreements}
         onChange={(_, value) =>
-          setFormData((prev) => ({ ...prev, multipleAgreements: value }))
+          onChange({ target: { name: "multipleAgreements", value } } as any)
         }
       />
 
@@ -85,7 +46,7 @@ const MotorFinanceForm = () => {
         name="financeProvider"
         value={formData.financeProvider}
         options={motorFinanceProviders.map((provider) => provider.name)}
-        onChange={handleChange}
+        onChange={onChange}
       />
 
       <AnimatePresence mode="wait">
@@ -104,7 +65,7 @@ const MotorFinanceForm = () => {
         name="policyNumberKnown"
         value={formData.policyNumberKnown}
         onChange={(_, value) =>
-          setFormData((prev) => ({ ...prev, policyNumberKnown: value }))
+          onChange({ target: { name: "policyNumberKnown", value } } as any)
         }
       />
 
@@ -114,7 +75,7 @@ const MotorFinanceForm = () => {
           name="policyNumber"
           value={formData.policyNumber ?? ""}
           placeholder="e.g. 12-123456"
-          onChange={handleChange}
+          onChange={onChange}
         />
       )}
 
@@ -134,7 +95,7 @@ const MotorFinanceForm = () => {
         name="vehicleNumber"
         value={formData.vehicleNumber}
         placeholder="e.g. BG51 SMR"
-        onChange={handleChange}
+        onChange={onChange}
         error={errors.vehicleNumber}
       />
 
@@ -145,7 +106,7 @@ const MotorFinanceForm = () => {
             name="dealerOrBroker"
             value={formData.dealerOrBroker ?? ""}
             placeholder="Enter dealer or broker name"
-            onChange={handleChange}
+            onChange={onChange}
           />
 
           <TextInput
@@ -153,19 +114,11 @@ const MotorFinanceForm = () => {
             name="purchaseDate"
             type="date"
             value={formData.purchaseDate ?? ""}
-            onChange={handleChange}
+            onChange={onChange}
           />
         </>
       )}
-
-      <button
-        type="submit"
-        className="w-full cursor-pointer rounded-md bg-blue-500 py-2 text-white transition hover:bg-blue-600"
-        disabled={!!errors.vehicleNumber}
-      >
-        Submit
-      </button>
-    </form>
+    </div>
   );
 };
 
