@@ -14,6 +14,17 @@ export interface PersonalDetailsFormData {
   address: string;
 }
 
+export type ToggleButtonGroupField =
+  | keyof MotorFinanceFormData
+  | keyof PersonalDetailsFormData;
+
+export interface ToggleButtonGroupProps {
+  label: string;
+  name: ToggleButtonGroupField;
+  value: string;
+  onChange: (name: ToggleButtonGroupField, value: string) => void;
+}
+
 export interface MotorFinanceFormProps {
   formData: MotorFinanceFormData;
   onChange: (

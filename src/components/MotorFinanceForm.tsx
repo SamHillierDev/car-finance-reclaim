@@ -1,5 +1,5 @@
 import { AnimatePresence } from "framer-motion";
-import { MotorFinanceFormProps } from "../types/FormData";
+import { MotorFinanceFormProps } from "../types/FormTypes";
 import { motorFinanceProviders } from "../utils/constants";
 import SelectInput from "./SelectInput";
 import TextInput from "./TextInput";

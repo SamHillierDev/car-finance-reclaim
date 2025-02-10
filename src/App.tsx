@@ -4,7 +4,7 @@ import PersonalDetailsForm from "./components/PersonalDetailsForm";
 import {
   MotorFinanceFormData,
   PersonalDetailsFormData,
-} from "./types/FormData";
+} from "./types/FormTypes";
 import { getLicensePlateError } from "./utils/inputValidations";
 
 function App() {

@@ -1,11 +1,4 @@
-import { FormData } from "../types/FormData";
-
-interface ToggleButtonGroupProps {
-  label: string;
-  name: keyof FormData;
-  value: string;
-  onChange: (name: keyof FormData, value: string) => void;
-}
+import { ToggleButtonGroupProps } from "../types/FormTypes";
 
 const ToggleButtonGroup: React.FC<ToggleButtonGroupProps> = ({
   label,

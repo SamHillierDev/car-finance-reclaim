@@ -1,4 +1,4 @@
-import { PersonalDetailsFormProps } from "../types/FormData";
+import { PersonalDetailsFormProps } from "../types/FormTypes";
 import TextInput from "./TextInput";
 
 const PersonalDetailsForm = ({
