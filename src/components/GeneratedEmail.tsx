@@ -27,8 +27,8 @@ const GeneratedEmail: React.FC<GeneratedEmailProps> = ({
   );
 
   return (
-    <div className="mt-6">
-      <h3 className="mb-2 text-lg">Generated Email</h3>
+    <div className="space-y-4">
+      <h2 className="text-lg font-semibold text-[#C58F60]">Generated email</h2>
       <textarea
         className="w-full rounded-md border p-2 text-sm"
         rows={12}
