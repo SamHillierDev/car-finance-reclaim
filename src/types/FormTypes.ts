@@ -39,3 +39,8 @@ export interface PersonalDetailsFormProps {
   formData: PersonalDetailsFormData;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
+
+export interface GeneratedEmailProps {
+  personalDetails: PersonalDetailsFormData;
+  motorFinanceDetails: MotorFinanceFormData;
+}

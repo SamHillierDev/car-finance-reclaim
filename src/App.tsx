@@ -1,6 +1,7 @@
 import { useState } from "react";
 import MotorFinanceForm from "./components/MotorFinanceForm";
 import PersonalDetailsForm from "./components/PersonalDetailsForm";
+import GeneratedEmail from "./components/GeneratedEmail";
 import {
   MotorFinanceFormData,
   PersonalDetailsFormData,
@@ -29,6 +30,8 @@ function App() {
     });
 
   const [errors, setErrors] = useState<{ vehicleNumber?: string }>({});
+  const [showGeneratedEmail, setShowGeneratedEmail] =
+    useState<boolean>(false);
 
   const handleMotorFinanceChange = (
     e:
@@ -63,11 +66,9 @@ function App() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (errors.vehicleNumber) return;
 
-    console.log("Motor Finance Form Data:", motorFinanceData);
-    console.log("Personal Details Form Data:", personalDetailsData);
+    setShowGeneratedEmail(true);
   };
 
   return (
@@ -94,6 +95,13 @@ function App() {
             Generate my enquiry / complaint
           </button>
         </form>
+
+        {showGeneratedEmail && (
+          <GeneratedEmail
+            personalDetails={personalDetailsData}
+            motorFinanceDetails={motorFinanceData}
+          />
+        )}
       </div>
     </div>
   );
