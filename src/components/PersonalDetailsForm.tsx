@@ -41,7 +41,7 @@ const PersonalDetailsForm = ({
         }
       />
 
-      {formData.addressSameAsFinance === "No" && (
+      {formData.addressSameAsFinance === false && (
         <TextInput
           label="Your address & postcode at the time"
           name="previousAddress"

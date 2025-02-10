@@ -23,12 +23,14 @@ const MotorFinanceForm = ({
         name="multipleAgreements"
         value={formData.multipleAgreements}
         onChange={(_, value) =>
-          onChange({ target: { name: "multipleAgreements", value } } as any)
+          onChange({
+            target: { name: "multipleAgreements", value },
+          } as any)
         }
       />
 
       <AnimatePresence mode="wait">
-        {formData.multipleAgreements === "Yes" && (
+        {formData.multipleAgreements && (
           <WarningMessage
             color="yellow"
             message={[
@@ -65,11 +67,13 @@ const MotorFinanceForm = ({
         name="policyNumberKnown"
         value={formData.policyNumberKnown}
         onChange={(_, value) =>
-          onChange({ target: { name: "policyNumberKnown", value } } as any)
+          onChange({
+            target: { name: "policyNumberKnown", value },
+          } as any)
         }
       />
 
-      {formData.policyNumberKnown === "Yes" && (
+      {formData.policyNumberKnown && (
         <TextInput
           label="Policy reference/number"
           name="policyNumber"
@@ -80,7 +84,7 @@ const MotorFinanceForm = ({
       )}
 
       <AnimatePresence mode="wait">
-        {formData.policyNumberKnown === "No" && (
+        {formData.policyNumberKnown === false && (
           <WarningMessage
             color="yellow"
             message={[
@@ -99,7 +103,7 @@ const MotorFinanceForm = ({
         error={errors.vehicleNumber}
       />
 
-      {formData.policyNumberKnown === "No" && (
+      {formData.policyNumberKnown === false && (
         <>
           <TextInput
             label="The dealer or broker you bought the vehicle from (optional)"

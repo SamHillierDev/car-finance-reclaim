@@ -10,9 +10,9 @@ import { getLicensePlateError } from "./utils/inputValidations";
 function App() {
   const [motorFinanceData, setMotorFinanceData] =
     useState<MotorFinanceFormData>({
-      multipleAgreements: "",
+      multipleAgreements: null,
       financeProvider: "",
-      policyNumberKnown: "",
+      policyNumberKnown: null,
       policyNumber: "",
       vehicleNumber: "",
       dealerOrBroker: "",
@@ -24,30 +24,41 @@ function App() {
       fullName: "",
       dateOfBirth: "",
       address: "",
-      addressSameAsFinance: "",
+      addressSameAsFinance: null,
       previousAddress: "",
     });
 
   const [errors, setErrors] = useState<{ vehicleNumber?: string }>({});
 
   const handleMotorFinanceChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    e:
+      | React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+      | { target: { name: string; value: boolean } },
   ) => {
     const { name, value } = e.target;
 
     if (name === "vehicleNumber") {
-      const error = getLicensePlateError(value);
+      const error = getLicensePlateError(value as string);
       setErrors((prev) => ({ ...prev, vehicleNumber: error }));
     }
 
-    setMotorFinanceData((prev) => ({ ...prev, [name]: value }));
+    setMotorFinanceData((prev) => ({
+      ...prev,
+      [name]: typeof value === "boolean" ? value : value,
+    }));
   };
 
   const handlePersonalDetailsChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | { target: { name: string; value: boolean } },
   ) => {
     const { name, value } = e.target;
-    setPersonalDetailsData((prev) => ({ ...prev, [name]: value }));
+
+    setPersonalDetailsData((prev) => ({
+      ...prev,
+      [name]: typeof value === "boolean" ? value : value,
+    }));
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -77,10 +88,10 @@ function App() {
 
           <button
             type="submit"
-            className="w-full cursor-pointer rounded-md bg-blue-500 py-2 text-white transition hover:bg-blue-600"
+            className="w-full cursor-pointer rounded-md bg-[#C58F60] py-3 font-light text-white transition hover:bg-[#C58F60]/90"
             disabled={!!errors.vehicleNumber}
           >
-            Submit
+            Generate my enquiry / complaint
           </button>
         </form>
       </div>

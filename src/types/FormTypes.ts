@@ -1,7 +1,7 @@
 export interface MotorFinanceFormData {
-  multipleAgreements: string;
+  multipleAgreements: boolean | null;
   financeProvider: string;
-  policyNumberKnown: string;
+  policyNumberKnown: boolean | null;
   policyNumber?: string;
   vehicleNumber: string;
   dealerOrBroker?: string;
@@ -12,7 +12,7 @@ export interface PersonalDetailsFormData {
   fullName: string;
   dateOfBirth: string;
   address: string;
-  addressSameAsFinance: string;
+  addressSameAsFinance: boolean | null;
   previousAddress?: string;
 }
 
@@ -23,8 +23,8 @@ export type ToggleButtonGroupField =
 export interface ToggleButtonGroupProps {
   label: string;
   name: ToggleButtonGroupField;
-  value: string;
-  onChange: (name: ToggleButtonGroupField, value: string) => void;
+  value: boolean | null;
+  onChange: (name: ToggleButtonGroupField, value: boolean) => void;
 }
 
 export interface MotorFinanceFormProps {

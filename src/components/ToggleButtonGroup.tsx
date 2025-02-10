@@ -9,19 +9,24 @@ const ToggleButtonGroup: React.FC<ToggleButtonGroupProps> = ({
   return (
     <>
       <label className="font-medium">{label}</label>
-      <div className="flex gap-4">
-        {["Yes", "No"].map((option) => (
-          <button
-            key={option}
-            type="button"
-            className={`cursor-pointer rounded-md px-4 py-2 transition ${
-              value === option ? "bg-[#C58F60] text-white" : "bg-gray-200"
-            }`}
-            onClick={() => onChange(name, option)}
-          >
-            {option}
-          </button>
-        ))}
+      <div className="flex gap-2">
+        {["Yes", "No"].map((option) => {
+          const booleanValue = option === "Yes" ? true : false;
+          return (
+            <button
+              key={option}
+              type="button"
+              className={`cursor-pointer rounded-lg px-4 py-2 transition ${
+                value === booleanValue
+                  ? "bg-[#C58F60] text-white"
+                  : "bg-gray-200 hover:bg-gray-300"
+              }`}
+              onClick={() => onChange(name, booleanValue)}
+            >
+              {option}
+            </button>
+          );
+        })}
       </div>
     </>
   );
