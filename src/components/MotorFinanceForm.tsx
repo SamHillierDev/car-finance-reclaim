@@ -15,6 +15,8 @@ const MotorFinanceForm = ({
     (provider) => provider.name === formData.financeProvider,
   );
   const showProviderWarning = selectedProvider?.warning || false;
+  const isOtherProvider =
+    formData.financeProvider === "Other (not in the list)";
 
   return (
     <div className="space-y-4">
@@ -39,9 +41,9 @@ const MotorFinanceForm = ({
             color="yellow"
             message={[
               <strong>If they were with the SAME provider:</strong>,
-              "No problem, just carry on, you can put more than one financial agreement in.",
+              " No problem, just carry on, you can put more than one financial agreement in.",
               <strong>If they were with DIFFERENT providers:</strong>,
-              "You will need to restart this process for each finance provider.",
+              " You will need to restart this process for each finance provider.",
             ]}
           />
         )}
@@ -51,9 +53,38 @@ const MotorFinanceForm = ({
         label="Who provided your motor finance?"
         name="financeProvider"
         value={formData.financeProvider}
-        options={motorFinanceProviders.map((provider) => provider.name)}
+        options={[
+          ...motorFinanceProviders.map((provider) => provider.name),
+          "Other (not in the list)",
+        ]}
         onChange={onChange}
       />
+
+      <AnimatePresence mode="wait">
+        {isOtherProvider && (
+          <WarningMessage
+            color="yellow"
+            message={[
+              "You can still generate an enquiry/complaint, but ",
+              <strong>
+                you will have to find the provider’s contact details yourself.
+              </strong>,
+            ]}
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence mode="wait">
+        {isOtherProvider && (
+          <TextInput
+            label="Tell us the provider's name so we can add it in the future (optional)"
+            name="otherProviderName"
+            value={formData.otherProviderName ?? ""}
+            placeholder="Enter provider name"
+            onChange={onChange}
+          />
+        )}
+      </AnimatePresence>
 
       <AnimatePresence mode="wait">
         {showProviderWarning && (
@@ -67,7 +98,11 @@ const MotorFinanceForm = ({
       </AnimatePresence>
 
       <ToggleButtonGroup
-        label={`With ${selectedProvider?.name || "this provider"}, do you have more than one agreement?`}
+        label={`With ${
+          isOtherProvider
+            ? "this provider"
+            : selectedProvider?.name || "this provider"
+        }, do you have more than one agreement?`}
         name="providerMultipleAgreements"
         value={formData.providerMultipleAgreements}
         onChange={(_, value) =>

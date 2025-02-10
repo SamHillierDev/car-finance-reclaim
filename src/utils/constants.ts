@@ -58,7 +58,6 @@ export const motorFinanceProviders = [
   { name: "Volkswagen Financial Services", warning: false },
   { name: "Volvo Car Financial Services", warning: false },
   { name: "Zopa", warning: false },
-  { name: "Other", warning: false },
 ];
 
 export const generateComplaintText = (
