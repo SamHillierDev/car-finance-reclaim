@@ -12,6 +12,8 @@ export interface PersonalDetailsFormData {
   fullName: string;
   dateOfBirth: string;
   address: string;
+  addressSameAsFinance: string;
+  previousAddress?: string;
 }
 
 export type ToggleButtonGroupField =

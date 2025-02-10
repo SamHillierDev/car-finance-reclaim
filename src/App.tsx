@@ -24,6 +24,8 @@ function App() {
       fullName: "",
       dateOfBirth: "",
       address: "",
+      addressSameAsFinance: "",
+      previousAddress: "",
     });
 
   const [errors, setErrors] = useState<{ vehicleNumber?: string }>({});
