@@ -13,6 +13,7 @@ function App() {
     multipleAgreements: "",
     financeProvider: "",
     policyNumberKnown: "",
+    policyNumber: "",
     vehicleNumber: "",
     dealerOrBroker: "",
     purchaseDate: "",
@@ -110,30 +111,55 @@ function App() {
             }
           />
 
+          {formData.policyNumberKnown === "Yes" && (
+            <TextInput
+              label="Policy reference/number"
+              name="policyNumber"
+              value={formData.policyNumber}
+              placeholder="e.g. 12-123456"
+              onChange={handleChange}
+            />
+          )}
+
+          <AnimatePresence mode="wait">
+            {formData.policyNumberKnown === "No" && (
+              <WarningMessage
+                color="yellow"
+                message={[
+                  "We'll amend the wording to ask the finance provider to use the details you've supplied to locate any agreements in your name. Please provide as many details as you can or there's a risk they won't find your agreement.",
+                ]}
+              />
+            )}
+          </AnimatePresence>
+
           <TextInput
             label="Number plate of vehicle you had finance on"
             name="vehicleNumber"
             value={formData.vehicleNumber}
-            placeholder="Enter vehicle number plate"
+            placeholder="e.g. BG51 SMR"
             onChange={handleChange}
             error={errors.vehicleNumber}
           />
 
-          <TextInput
-            label="The dealer or broker you bought the vehicle from (optional)"
-            name="dealerOrBroker"
-            value={formData.dealerOrBroker}
-            placeholder="Enter dealer or broker name"
-            onChange={handleChange}
-          />
+          {formData.policyNumberKnown === "No" && (
+            <>
+              <TextInput
+                label="The dealer or broker you bought the vehicle from (optional)"
+                name="dealerOrBroker"
+                value={formData.dealerOrBroker}
+                placeholder="Enter dealer or broker name"
+                onChange={handleChange}
+              />
 
-          <TextInput
-            label="When did you buy the vehicle? (optional)"
-            name="purchaseDate"
-            type="date"
-            value={formData.purchaseDate}
-            onChange={handleChange}
-          />
+              <TextInput
+                label="When did you buy the vehicle? (optional)"
+                name="purchaseDate"
+                type="date"
+                value={formData.purchaseDate}
+                onChange={handleChange}
+              />
+            </>
+          )}
 
           <button
             type="submit"
