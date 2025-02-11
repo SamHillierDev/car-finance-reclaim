@@ -7,12 +7,13 @@ import {
   MotorFinanceFormData,
   PersonalDetailsFormData,
 } from "./types/FormTypes";
-import { getLicensePlateError } from "./utils/inputValidations";
 
 function App() {
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [direction, setDirection] = useState<"left" | "right">("right");
   const [hasNavigated, setHasNavigated] = useState<boolean>(false);
+  const [showGeneratedEmail, setShowGeneratedEmail] = useState<boolean>(false);
+
   const [motorFinanceData, setMotorFinanceData] =
     useState<MotorFinanceFormData>({
       multipleAgreements: null,
@@ -34,21 +35,12 @@ function App() {
       previousAddress: "",
     });
 
-  const [errors, setErrors] = useState<{ vehicleNumber?: string }>({});
-  const [showGeneratedEmail, setShowGeneratedEmail] = useState<boolean>(false);
-
   const handleMotorFinanceChange = (
     e:
       | React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
       | { target: { name: string; value: boolean } },
   ) => {
     const { name, value } = e.target;
-
-    if (name === "vehicleNumber") {
-      const error = getLicensePlateError(value as string);
-      setErrors((prev) => ({ ...prev, vehicleNumber: error }));
-    }
-
     setMotorFinanceData((prev) => ({
       ...prev,
       [name]: typeof value === "boolean" ? value : value,
@@ -61,7 +53,6 @@ function App() {
       | { target: { name: string; value: boolean } },
   ) => {
     const { name, value } = e.target;
-
     setPersonalDetailsData((prev) => ({
       ...prev,
       [name]: typeof value === "boolean" ? value : value,
@@ -69,7 +60,6 @@ function App() {
   };
 
   const handleNextStep = () => {
-    if (currentStep === 1 && errors.vehicleNumber) return;
     setDirection("right");
     setHasNavigated(true);
     setCurrentStep((prev) => prev + 1);
@@ -88,8 +78,6 @@ function App() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (errors.vehicleNumber) return;
-
     setShowGeneratedEmail(true);
   };
 
@@ -153,7 +141,6 @@ function App() {
                 <MotorFinanceForm
                   formData={motorFinanceData}
                   onChange={handleMotorFinanceChange}
-                  errors={errors}
                 />
               )}
 
@@ -180,7 +167,6 @@ function App() {
                     type="button"
                     onClick={handleNextStep}
                     className="ml-auto cursor-pointer rounded-md bg-blue-600 px-4 py-2 text-white"
-                    disabled={!!errors.vehicleNumber}
                   >
                     Next
                   </button>
@@ -190,7 +176,6 @@ function App() {
                   <button
                     type="submit"
                     className="ml-auto cursor-pointer rounded-md bg-[#C58F60] px-4 py-2 text-white"
-                    disabled={!!errors.vehicleNumber}
                   >
                     Generate my enquiry / complaint
                   </button>

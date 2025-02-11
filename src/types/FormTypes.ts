@@ -34,7 +34,7 @@ export interface MotorFinanceFormProps {
   onChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => void;
-  errors: { vehicleNumber?: string };
+  errors?: { vehicleNumber?: string };
 }
 
 export interface PersonalDetailsFormProps {

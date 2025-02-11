@@ -1,16 +1,29 @@
 import { AnimatePresence } from "framer-motion";
+import { useState } from "react";
 import { MotorFinanceFormProps } from "../types/FormTypes";
 import { motorFinanceProviders } from "../utils/constants";
+import { getLicensePlateError } from "../utils/inputValidations";
 import SelectInput from "./SelectInput";
 import TextInput from "./TextInput";
 import ToggleButtonGroup from "./ToggleButtonGroup";
 import WarningMessage from "./WarningMessage";
 
-const MotorFinanceForm = ({
-  formData,
-  onChange,
-  errors,
-}: MotorFinanceFormProps) => {
+const MotorFinanceForm = ({ formData, onChange }: MotorFinanceFormProps) => {
+  const [errors, setErrors] = useState<{ vehicleNumber?: string }>({});
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    const { name, value } = e.target;
+
+    if (name === "vehicleNumber") {
+      const error = getLicensePlateError(value as string);
+      setErrors((prev) => ({ ...prev, vehicleNumber: error }));
+    }
+
+    onChange(e);
+  };
+
   const selectedProvider = motorFinanceProviders.find(
     (provider) => provider.name === formData.financeProvider,
   );
@@ -29,9 +42,7 @@ const MotorFinanceForm = ({
         name="multipleAgreements"
         value={formData.multipleAgreements}
         onChange={(_, value) =>
-          onChange({
-            target: { name: "multipleAgreements", value },
-          } as any)
+          onChange({ target: { name: "multipleAgreements", value } } as any)
         }
       />
 
@@ -121,9 +132,7 @@ const MotorFinanceForm = ({
         name="policyNumberKnown"
         value={formData.policyNumberKnown}
         onChange={(_, value) =>
-          onChange({
-            target: { name: "policyNumberKnown", value },
-          } as any)
+          onChange({ target: { name: "policyNumberKnown", value } } as any)
         }
       />
 
@@ -163,7 +172,7 @@ const MotorFinanceForm = ({
         name="vehicleNumber"
         value={formData.vehicleNumber ?? ""}
         placeholder="ENTER REG"
-        onChange={onChange}
+        onChange={handleInputChange}
         error={errors.vehicleNumber}
         showGBFlag={true}
         className="border-gray-400 bg-yellow-200 text-center font-mono tracking-widest uppercase"

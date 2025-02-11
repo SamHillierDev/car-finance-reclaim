@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { PersonalDetailsFormProps } from "../types/FormTypes";
+import { getFullNameError } from "../utils/inputValidations";
 import TextInput from "./TextInput";
 import ToggleButtonGroup from "./ToggleButtonGroup";
 
@@ -6,6 +8,19 @@ const PersonalDetailsForm = ({
   formData,
   onChange,
 }: PersonalDetailsFormProps) => {
+  const [errors, setErrors] = useState<{ fullName?: string }>({});
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    if (name === "fullName") {
+      const error = getFullNameError(value);
+      setErrors((prev) => ({ ...prev, fullName: error }));
+    }
+
+    onChange(e);
+  };
+
   return (
     <div className="space-y-4">
       <h2 className="text-lg font-semibold text-[#C58F60]">About you</h2>
@@ -15,7 +30,8 @@ const PersonalDetailsForm = ({
         name="fullName"
         value={formData.fullName}
         placeholder="Enter your full name"
-        onChange={onChange}
+        onChange={handleInputChange}
+        error={errors.fullName}
       />
 
       <TextInput
