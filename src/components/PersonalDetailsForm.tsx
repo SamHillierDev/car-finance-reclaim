@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { PersonalDetailsFormProps } from "../types/FormTypes";
-import { getFullNameError } from "../utils/inputValidations";
+import {
+  getDateOfBirthError,
+  getFullNameError,
+} from "../utils/inputValidations";
 import TextInput from "./TextInput";
 import ToggleButtonGroup from "./ToggleButtonGroup";
 
@@ -8,7 +11,10 @@ const PersonalDetailsForm = ({
   formData,
   onChange,
 }: PersonalDetailsFormProps) => {
-  const [errors, setErrors] = useState<{ fullName?: string }>({});
+  const [errors, setErrors] = useState<{
+    fullName?: string;
+    dateOfBirth?: string;
+  }>({});
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -16,6 +22,11 @@ const PersonalDetailsForm = ({
     if (name === "fullName") {
       const error = getFullNameError(value);
       setErrors((prev) => ({ ...prev, fullName: error }));
+    }
+
+    if (name === "dateOfBirth") {
+      const error = getDateOfBirthError(value);
+      setErrors((prev) => ({ ...prev, dateOfBirth: error }));
     }
 
     onChange(e);
@@ -39,7 +50,8 @@ const PersonalDetailsForm = ({
         name="dateOfBirth"
         type="date"
         value={formData.dateOfBirth}
-        onChange={onChange}
+        onChange={handleInputChange}
+        error={errors.dateOfBirth}
       />
 
       <TextInput
