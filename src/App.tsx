@@ -8,14 +8,32 @@ import {
   PersonalDetailsFormData,
 } from "./types/FormTypes";
 
-function App() {
-  const [currentStep, setCurrentStep] = useState<number>(1);
-  const [direction, setDirection] = useState<"left" | "right">("right");
-  const [hasNavigated, setHasNavigated] = useState<boolean>(false);
-  const [showGeneratedEmail, setShowGeneratedEmail] = useState<boolean>(false);
+const pageVariants = {
+  initial: ({
+    direction,
+    hasNavigated,
+  }: {
+    direction: "left" | "right";
+    hasNavigated: boolean;
+  }) => ({
+    x: hasNavigated ? (direction === "right" ? "100%" : "-100%") : 0,
+    opacity: hasNavigated ? 0 : 1,
+  }),
+  animate: { x: 0, opacity: 1 },
+  exit: ({ direction }: { direction: "left" | "right" }) => ({
+    x: direction === "right" ? "-100%" : "100%",
+    opacity: 0,
+  }),
+};
 
-  const [motorFinanceData, setMotorFinanceData] =
-    useState<MotorFinanceFormData>({
+function App() {
+  const [currentStep, setCurrentStep] = useState(1);
+  const [direction, setDirection] = useState<"left" | "right">("right");
+  const [hasNavigated, setHasNavigated] = useState(false);
+  const [showGeneratedEmail, setShowGeneratedEmail] = useState(false);
+
+  const [formData, setFormData] = useState({
+    motorFinance: {
       multipleAgreements: null,
       financeProvider: "",
       providerMultipleAgreements: null,
@@ -24,45 +42,37 @@ function App() {
       vehicleNumber: "",
       dealerOrBroker: "",
       purchaseDate: "",
-    });
-
-  const [personalDetailsData, setPersonalDetailsData] =
-    useState<PersonalDetailsFormData>({
+    } as MotorFinanceFormData,
+    personalDetails: {
       fullName: "",
       dateOfBirth: "",
       address: "",
       addressSameAsFinance: null,
       previousAddress: "",
-    });
+    } as PersonalDetailsFormData,
+  });
 
-  const handleMotorFinanceChange = (
-    e:
-      | React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-      | { target: { name: string; value: boolean } },
-  ) => {
-    const { name, value } = e.target;
-    setMotorFinanceData((prev) => ({
-      ...prev,
-      [name]: typeof value === "boolean" ? value : value,
-    }));
-  };
-
-  const handlePersonalDetailsChange = (
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | { target: { name: string; value: boolean } },
-  ) => {
-    const { name, value } = e.target;
-    setPersonalDetailsData((prev) => ({
-      ...prev,
-      [name]: typeof value === "boolean" ? value : value,
-    }));
-  };
+  const handleInputChange =
+    (formKey: "motorFinance" | "personalDetails") =>
+    (
+      e:
+        | React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+        | { target: { name: string; value: boolean } },
+    ) => {
+      const { name, value } = e.target;
+      setFormData((prev) => ({
+        ...prev,
+        [formKey]: {
+          ...prev[formKey],
+          [name]: typeof value === "boolean" ? value : String(value),
+        },
+      }));
+    };
 
   const handleNextStep = () => {
     setDirection("right");
     setHasNavigated(true);
-    setCurrentStep((prev) => prev + 1);
+    setCurrentStep((prev) => Math.min(2, prev + 1));
   };
 
   const handlePreviousStep = () => {
@@ -71,26 +81,16 @@ function App() {
     if (showGeneratedEmail) {
       setShowGeneratedEmail(false);
       setCurrentStep(2);
-    } else {
+    } else if (currentStep > 1) {
       setCurrentStep((prev) => prev - 1);
     }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setDirection("right");
+    setHasNavigated(true);
     setShowGeneratedEmail(true);
-  };
-
-  const pageVariants = {
-    initial: (direction: "left" | "right") => ({
-      x: hasNavigated ? (direction === "right" ? "100%" : "-100%") : 0,
-      opacity: hasNavigated ? 0 : 1,
-    }),
-    animate: { x: 0, opacity: 1 },
-    exit: (direction: "left" | "right") => ({
-      x: direction === "right" ? "-100%" : "100%",
-      opacity: 0,
-    }),
   };
 
   return (
@@ -100,11 +100,11 @@ function App() {
           Car Finance Reclaim
         </h1>
 
-        <AnimatePresence custom={direction} mode="wait">
+        <AnimatePresence custom={{ direction, hasNavigated }} mode="wait">
           {showGeneratedEmail ? (
             <motion.div
               key="generated-email"
-              custom={direction}
+              custom={{ direction, hasNavigated }}
               variants={pageVariants}
               initial="initial"
               animate="animate"
@@ -112,8 +112,8 @@ function App() {
               transition={{ type: "tween", duration: 0.4 }}
             >
               <GeneratedEmail
-                personalDetails={personalDetailsData}
-                motorFinanceDetails={motorFinanceData}
+                personalDetails={formData.personalDetails}
+                motorFinanceDetails={formData.motorFinance}
               />
               <div className="mt-4">
                 <button
@@ -130,7 +130,7 @@ function App() {
               key={currentStep}
               onSubmit={handleSubmit}
               className="space-y-6"
-              custom={direction}
+              custom={{ direction, hasNavigated }}
               variants={pageVariants}
               initial="initial"
               animate="animate"
@@ -139,15 +139,14 @@ function App() {
             >
               {currentStep === 1 && (
                 <MotorFinanceForm
-                  formData={motorFinanceData}
-                  onChange={handleMotorFinanceChange}
+                  formData={formData.motorFinance}
+                  onChange={handleInputChange("motorFinance")}
                 />
               )}
-
               {currentStep === 2 && (
                 <PersonalDetailsForm
-                  formData={personalDetailsData}
-                  onChange={handlePersonalDetailsChange}
+                  formData={formData.personalDetails}
+                  onChange={handleInputChange("personalDetails")}
                 />
               )}
 
@@ -161,7 +160,6 @@ function App() {
                     Back
                   </button>
                 )}
-
                 {currentStep === 1 && (
                   <button
                     type="button"
@@ -171,7 +169,6 @@ function App() {
                     Next
                   </button>
                 )}
-
                 {currentStep === 2 && (
                   <button
                     type="submit"
