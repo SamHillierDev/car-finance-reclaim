@@ -52,6 +52,32 @@ function App() {
     } as PersonalDetailsFormData,
   });
 
+  const isStepValid = () => {
+    if (currentStep === 1) {
+      return (
+        formData.motorFinance.financeProvider?.trim() !== "" &&
+        (formData.motorFinance.vehicleNumber ?? "").trim() !== "" &&
+        formData.motorFinance.multipleAgreements !== null &&
+        formData.motorFinance.providerMultipleAgreements !== null &&
+        formData.motorFinance.policyNumberKnown !== null &&
+        (formData.motorFinance.policyNumberKnown === true
+          ? formData.motorFinance.policyNumber?.trim() !== ""
+          : true)
+      );
+    } else if (currentStep === 2) {
+      return (
+        formData.personalDetails.fullName?.trim() !== "" &&
+        formData.personalDetails.dateOfBirth?.trim() !== "" &&
+        formData.personalDetails.address?.trim() !== "" &&
+        formData.personalDetails.addressSameAsFinance !== null &&
+        (formData.personalDetails.addressSameAsFinance === false
+          ? formData.personalDetails.previousAddress?.trim() !== ""
+          : true)
+      );
+    }
+    return false;
+  };
+
   const handleInputChange =
     (formKey: "motorFinance" | "personalDetails") =>
     (
@@ -70,9 +96,11 @@ function App() {
     };
 
   const handleNextStep = () => {
-    setDirection("right");
-    setHasNavigated(true);
-    setCurrentStep((prev) => Math.min(2, prev + 1));
+    if (isStepValid()) {
+      setDirection("right");
+      setHasNavigated(true);
+      setCurrentStep((prev) => Math.min(2, prev + 1));
+    }
   };
 
   const handlePreviousStep = () => {
@@ -88,9 +116,11 @@ function App() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setDirection("right");
-    setHasNavigated(true);
-    setShowGeneratedEmail(true);
+    if (isStepValid()) {
+      setDirection("right");
+      setHasNavigated(true);
+      setShowGeneratedEmail(true);
+    }
   };
 
   return (
@@ -141,7 +171,12 @@ function App() {
                     <button
                       type="button"
                       onClick={handleNextStep}
-                      className="ml-auto cursor-pointer rounded-md bg-blue-600 px-4 py-2 text-white"
+                      disabled={!isStepValid()}
+                      className={`ml-auto rounded-md px-4 py-2 text-white ${
+                        isStepValid()
+                          ? "cursor-pointer bg-blue-600 hover:bg-blue-700"
+                          : "cursor-not-allowed bg-gray-400"
+                      }`}
                     >
                       Next
                     </button>
@@ -149,7 +184,12 @@ function App() {
                   {currentStep === 2 && (
                     <button
                       type="submit"
-                      className="ml-auto cursor-pointer rounded-md bg-[#C58F60] px-4 py-2 text-white"
+                      disabled={!isStepValid()}
+                      className={`ml-auto rounded-md px-4 py-2 text-white ${
+                        isStepValid()
+                          ? "cursor-pointer bg-[#C58F60] hover:bg-[#B07D50]"
+                          : "cursor-not-allowed bg-gray-400"
+                      }`}
                     >
                       Generate my enquiry / complaint
                     </button>
