@@ -95,12 +95,72 @@ function App() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
-      <div className="w-full max-w-lg overflow-hidden rounded-lg bg-white p-6 shadow-md">
-        <h1 className="mb-4 flex items-center justify-center text-2xl font-medium">
-          Car Finance Reclaim
-        </h1>
+      <div className="flex w-full max-w-5xl flex-col overflow-hidden rounded-lg bg-white shadow-md md:flex-row">
+        <div className="w-full border-b border-gray-300 p-4 md:border-r md:border-b-0 md:p-6 lg:w-1/2">
+          <h1 className="mb-4 text-center text-2xl font-medium">
+            Car Finance Reclaim
+          </h1>
 
-        <AnimatePresence custom={{ direction, hasNavigated }} mode="wait">
+          <AnimatePresence custom={{ direction, hasNavigated }} mode="wait">
+            {!showGeneratedEmail && (
+              <motion.form
+                key={currentStep}
+                onSubmit={handleSubmit}
+                className="space-y-6"
+                custom={{ direction, hasNavigated }}
+                variants={pageVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                transition={{ type: "tween", duration: 0.4 }}
+              >
+                {currentStep === 1 && (
+                  <MotorFinanceForm
+                    formData={formData.motorFinance}
+                    onChange={handleInputChange("motorFinance")}
+                  />
+                )}
+                {currentStep === 2 && (
+                  <PersonalDetailsForm
+                    formData={formData.personalDetails}
+                    onChange={handleInputChange("personalDetails")}
+                  />
+                )}
+
+                <div className="flex justify-between gap-2">
+                  {currentStep > 1 && (
+                    <button
+                      type="button"
+                      onClick={handlePreviousStep}
+                      className="cursor-pointer rounded-md bg-gray-300 px-4 py-2"
+                    >
+                      Back
+                    </button>
+                  )}
+                  {currentStep === 1 && (
+                    <button
+                      type="button"
+                      onClick={handleNextStep}
+                      className="ml-auto cursor-pointer rounded-md bg-blue-600 px-4 py-2 text-white"
+                    >
+                      Next
+                    </button>
+                  )}
+                  {currentStep === 2 && (
+                    <button
+                      type="submit"
+                      className="ml-auto cursor-pointer rounded-md bg-[#C58F60] px-4 py-2 text-white"
+                    >
+                      Generate my enquiry / complaint
+                    </button>
+                  )}
+                </div>
+              </motion.form>
+            )}
+          </AnimatePresence>
+        </div>
+
+        <div className="w-full p-4 lg:w-1/2 lg:p-6">
           {showGeneratedEmail ? (
             <motion.div
               key="generated-email"
@@ -126,61 +186,11 @@ function App() {
               </div>
             </motion.div>
           ) : (
-            <motion.form
-              key={currentStep}
-              onSubmit={handleSubmit}
-              className="space-y-6"
-              custom={{ direction, hasNavigated }}
-              variants={pageVariants}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              transition={{ type: "tween", duration: 0.4 }}
-            >
-              {currentStep === 1 && (
-                <MotorFinanceForm
-                  formData={formData.motorFinance}
-                  onChange={handleInputChange("motorFinance")}
-                />
-              )}
-              {currentStep === 2 && (
-                <PersonalDetailsForm
-                  formData={formData.personalDetails}
-                  onChange={handleInputChange("personalDetails")}
-                />
-              )}
-
-              <div className="flex justify-between gap-2">
-                {currentStep > 1 && (
-                  <button
-                    type="button"
-                    onClick={handlePreviousStep}
-                    className="cursor-pointer rounded-md bg-gray-300 px-4 py-2"
-                  >
-                    Back
-                  </button>
-                )}
-                {currentStep === 1 && (
-                  <button
-                    type="button"
-                    onClick={handleNextStep}
-                    className="ml-auto cursor-pointer rounded-md bg-blue-600 px-4 py-2 text-white"
-                  >
-                    Next
-                  </button>
-                )}
-                {currentStep === 2 && (
-                  <button
-                    type="submit"
-                    className="ml-auto cursor-pointer rounded-md bg-[#C58F60] px-4 py-2 text-white"
-                  >
-                    Generate my enquiry / complaint
-                  </button>
-                )}
-              </div>
-            </motion.form>
+            <div className="text-center text-gray-500">
+              <p>Your generated email will appear here.</p>
+            </div>
           )}
-        </AnimatePresence>
+        </div>
       </div>
     </div>
   );
