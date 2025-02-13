@@ -1,7 +1,7 @@
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { MotorFinanceFormProps } from "../types/FormTypes";
-import { motorFinanceProviders } from "../utils/constants";
+import { financeProviders } from "../utils/financeProviders";
 import { getLicensePlateError } from "../utils/inputValidations";
 import SelectInput from "./SelectInput";
 import TextInput from "./TextInput";
@@ -24,7 +24,7 @@ const MotorFinanceForm = ({ formData, onChange }: MotorFinanceFormProps) => {
     onChange(e);
   };
 
-  const selectedProvider = motorFinanceProviders.find(
+  const selectedProvider = financeProviders.find(
     (provider) => provider.name === formData.financeProvider,
   );
   const showProviderWarning = selectedProvider?.warning || false;
@@ -65,7 +65,7 @@ const MotorFinanceForm = ({ formData, onChange }: MotorFinanceFormProps) => {
         name="financeProvider"
         value={formData.financeProvider}
         options={[
-          ...motorFinanceProviders.map((provider) => provider.name),
+          ...financeProviders.map((provider) => provider.name),
           "Other (not in the list)",
         ]}
         onChange={onChange}

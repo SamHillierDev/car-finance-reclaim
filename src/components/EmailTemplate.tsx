@@ -1,7 +1,7 @@
-import { GeneratedEmailProps } from "../types/FormTypes";
-import { generateComplaintText } from "../utils/constants";
+import { EmailTemplateProps } from "../types/FormTypes";
+import { emailTemplate } from "../utils/emailTemplate";
 
-const GeneratedEmail: React.FC<GeneratedEmailProps> = ({
+const EmailTemplate: React.FC<EmailTemplateProps> = ({
   personalDetails,
   motorFinanceDetails,
 }) => {
@@ -9,7 +9,7 @@ const GeneratedEmail: React.FC<GeneratedEmailProps> = ({
   const { policyNumber, vehicleNumber, dealerOrBroker, purchaseDate } =
     motorFinanceDetails;
 
-  const complaintText = generateComplaintText(
+  const complaintText = emailTemplate(
     fullName,
     dateOfBirth,
     address,
@@ -33,4 +33,4 @@ const GeneratedEmail: React.FC<GeneratedEmailProps> = ({
   );
 };
 
-export default GeneratedEmail;
+export default EmailTemplate;

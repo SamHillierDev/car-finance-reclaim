@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import GeneratedEmail from "./components/GeneratedEmail";
+import EmailTemplate from "./components/EmailTemplate";
 import MotorFinanceForm from "./components/MotorFinanceForm";
 import PersonalDetailsForm from "./components/PersonalDetailsForm";
 import {
@@ -30,7 +30,7 @@ function App() {
   const [currentStep, setCurrentStep] = useState(1);
   const [direction, setDirection] = useState<"left" | "right">("right");
   const [hasNavigated, setHasNavigated] = useState(false);
-  const [showGeneratedEmail, setShowGeneratedEmail] = useState(false);
+  const [showEmailTemplate, setShowEmailTemplate] = useState(false);
 
   const [formData, setFormData] = useState({
     motorFinance: {
@@ -106,8 +106,8 @@ function App() {
   const handlePreviousStep = () => {
     setDirection("left");
     setHasNavigated(true);
-    if (showGeneratedEmail) {
-      setShowGeneratedEmail(false);
+    if (showEmailTemplate) {
+      setShowEmailTemplate(false);
       setCurrentStep(2);
     } else if (currentStep > 1) {
       setCurrentStep((prev) => prev - 1);
@@ -119,7 +119,7 @@ function App() {
     if (isStepValid()) {
       setDirection("right");
       setHasNavigated(true);
-      setShowGeneratedEmail(true);
+      setShowEmailTemplate(true);
     }
   };
 
@@ -132,7 +132,7 @@ function App() {
           </h1>
 
           <AnimatePresence custom={{ direction, hasNavigated }} mode="wait">
-            {!showGeneratedEmail && (
+            {!showEmailTemplate && (
               <motion.form
                 key={currentStep}
                 onSubmit={handleSubmit}
@@ -201,7 +201,7 @@ function App() {
         </div>
 
         <div className="w-full p-4 lg:w-1/2 lg:p-6">
-          {showGeneratedEmail ? (
+          {showEmailTemplate ? (
             <motion.div
               key="generated-email"
               custom={{ direction, hasNavigated }}
@@ -211,7 +211,7 @@ function App() {
               exit="exit"
               transition={{ type: "tween", duration: 0.4 }}
             >
-              <GeneratedEmail
+              <EmailTemplate
                 personalDetails={formData.personalDetails}
                 motorFinanceDetails={formData.motorFinance}
               />

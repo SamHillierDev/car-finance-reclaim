@@ -42,7 +42,7 @@ export interface PersonalDetailsFormProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export interface GeneratedEmailProps {
+export interface EmailTemplateProps {
   personalDetails: PersonalDetailsFormData;
   motorFinanceDetails: MotorFinanceFormData;
 }
