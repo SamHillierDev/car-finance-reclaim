@@ -6,24 +6,18 @@ const GeneratedEmail: React.FC<GeneratedEmailProps> = ({
   motorFinanceDetails,
 }) => {
   const { fullName, dateOfBirth, address, previousAddress } = personalDetails;
-  const {
-    financeProvider,
-    policyNumber,
-    vehicleNumber,
-    // dealerOrBroker,
-    // purchaseDate,
-  } = motorFinanceDetails;
+  const { policyNumber, vehicleNumber, dealerOrBroker, purchaseDate } =
+    motorFinanceDetails;
 
   const complaintText = generateComplaintText(
     fullName,
     dateOfBirth,
     address,
     previousAddress,
-    financeProvider,
-    policyNumber,
     vehicleNumber,
-    // dealerOrBroker,
-    // purchaseDate,
+    policyNumber,
+    dealerOrBroker,
+    purchaseDate,
   );
 
   return (
