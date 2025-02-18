@@ -126,13 +126,23 @@ function App() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
       <div className="flex w-full max-w-5xl flex-col overflow-hidden rounded-lg bg-white shadow-md md:flex-row">
-        <div className="w-full border-b border-gray-300 p-4 md:border-r md:border-b-0 md:p-6 lg:w-1/2">
-          <h1 className="mb-4 text-center text-2xl font-medium">
+        <div className="w-full border-b border-gray-300 p-6 md:w-1/2 md:border-r md:border-b-0">
+          <h1 className="mb-4 text-center text-3xl font-semibold text-gray-800">
             Car Finance Reclaim
           </h1>
+          <p className="text-gray-600">
+            Did you buy a car, van or motorbike on PCP or Hire Purchase (not
+            leasing) before 28 January 2021? If so, you could be due £1,000s
+            back. In January 2024, the regulator, the Financial Conduct
+            Authority (FCA), launched a major investigation into hidden, unfair
+            car finance commission. This could lead to billions of pounds of
+            overcharged interest paid back to millions of people.
+          </p>
+        </div>
 
+        <div className="w-full p-6 lg:w-1/2">
           <AnimatePresence custom={{ direction, hasNavigated }} mode="wait">
-            {!showEmailTemplate && (
+            {!showEmailTemplate ? (
               <motion.form
                 key={currentStep}
                 onSubmit={handleSubmit}
@@ -196,40 +206,32 @@ function App() {
                   )}
                 </div>
               </motion.form>
+            ) : (
+              <motion.div
+                key="generated-email"
+                custom={{ direction, hasNavigated }}
+                variants={pageVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                transition={{ type: "tween", duration: 0.4 }}
+              >
+                <EmailTemplate
+                  personalDetails={formData.personalDetails}
+                  motorFinanceDetails={formData.motorFinance}
+                />
+                <div className="mt-4">
+                  <button
+                    type="button"
+                    onClick={handlePreviousStep}
+                    className="cursor-pointer rounded-md bg-gray-300 px-4 py-2"
+                  >
+                    Back
+                  </button>
+                </div>
+              </motion.div>
             )}
           </AnimatePresence>
-        </div>
-
-        <div className="w-full p-4 lg:w-1/2 lg:p-6">
-          {showEmailTemplate ? (
-            <motion.div
-              key="generated-email"
-              custom={{ direction, hasNavigated }}
-              variants={pageVariants}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              transition={{ type: "tween", duration: 0.4 }}
-            >
-              <EmailTemplate
-                personalDetails={formData.personalDetails}
-                motorFinanceDetails={formData.motorFinance}
-              />
-              <div className="mt-4">
-                <button
-                  type="button"
-                  onClick={handlePreviousStep}
-                  className="cursor-pointer rounded-md bg-gray-300 px-4 py-2"
-                >
-                  Back
-                </button>
-              </div>
-            </motion.div>
-          ) : (
-            <div className="text-center text-gray-500">
-              <p>Your generated email will appear here.</p>
-            </div>
-          )}
         </div>
       </div>
     </div>
