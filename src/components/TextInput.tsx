@@ -25,7 +25,7 @@ const TextInput: React.FC<TextInputProps> = ({
 }) => {
   return (
     <div className="flex flex-col">
-      <label className="mb-2">{label}</label>
+      <label className="mb-2 font-semibold">{label}</label>
       <div className="relative flex items-stretch">
         {showGBFlag && (
           <div className="flex flex-col items-center justify-center rounded-l-md border border-gray-400 bg-blue-600 px-2 py-1 text-yellow-200">

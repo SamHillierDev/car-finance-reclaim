@@ -7,8 +7,8 @@ const ToggleButtonGroup: React.FC<ToggleButtonGroupProps> = ({
   onChange,
 }) => {
   return (
-    <div className="flex items-center gap-2">
-      <label className="mb-2">{label}</label>
+    <div className="flex items-center justify-between gap-2">
+      <label className="mb-2 font-semibold">{label}</label>
       <div className="flex gap-2">
         {["Yes", "No"].map((option) => {
           const booleanValue = option === "Yes" ? true : false;

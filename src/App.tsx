@@ -124,9 +124,9 @@ function App() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
-      <div className="flex w-full max-w-5xl flex-col overflow-hidden rounded-lg bg-white shadow-md md:flex-row">
-        <div className="w-full border-b border-gray-300 p-6 md:w-1/2 md:border-r md:border-b-0">
+    <div className="flex min-h-screen w-full bg-gray-100">
+      <div className="flex h-screen w-full flex-col overflow-hidden bg-white shadow-md lg:flex-row">
+        <div className="w-full border-b border-gray-300 p-8 lg:w-1/2 lg:border-r lg:border-b-0 lg:p-10">
           <h1 className="mb-4 text-center text-3xl font-semibold text-gray-800">
             Car Finance Reclaim
           </h1>
@@ -140,7 +140,7 @@ function App() {
           </p>
         </div>
 
-        <div className="w-full p-6 lg:w-1/2">
+        <div className="w-full p-8 lg:w-1/2 lg:p-10">
           <AnimatePresence custom={{ direction, hasNavigated }} mode="wait">
             {!showEmailTemplate ? (
               <motion.form

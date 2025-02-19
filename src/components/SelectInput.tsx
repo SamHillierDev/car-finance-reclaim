@@ -15,7 +15,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
 }) => {
   return (
     <div className="flex flex-col">
-      <label className="mb-2">{label}</label>
+      <label className="mb-2 font-semibold">{label}</label>
       <select
         name={name}
         value={value}

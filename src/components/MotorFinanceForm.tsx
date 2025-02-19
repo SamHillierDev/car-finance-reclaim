@@ -33,7 +33,7 @@ const MotorFinanceForm = ({ formData, onChange }: MotorFinanceFormProps) => {
 
   return (
     <div className="space-y-4">
-      <h2 className="text-lg font-semibold text-[#C58F60]">
+      <h2 className="text-xl font-semibold text-[#C58F60]">
         About your motor finance agreement
       </h2>
 

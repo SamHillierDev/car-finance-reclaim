@@ -44,7 +44,7 @@ const EmailTemplate: React.FC<EmailTemplateProps> = ({
 
   return (
     <div className="space-y-4">
-      <h2 className="text-lg font-semibold text-[#C58F60]">Generated Email</h2>
+      <h2 className="text-xl font-semibold text-[#C58F60]">Email Template</h2>
 
       {selectedProvider?.email && (
         <div>
