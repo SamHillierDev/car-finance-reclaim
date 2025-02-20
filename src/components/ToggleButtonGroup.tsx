@@ -16,10 +16,10 @@ const ToggleButtonGroup: React.FC<ToggleButtonGroupProps> = ({
             <button
               key={option}
               type="button"
-              className={`cursor-pointer rounded-sm border border-gray-400 px-4 py-1 transition ${
+              className={`cursor-pointer rounded-sm border border-gray-300 px-4 py-1 shadow-inner outline-gray-300 transition ${
                 value === booleanValue
-                  ? "bg-[#C58F60] text-white"
-                  : "bg-gray-200 hover:bg-gray-300"
+                  ? "border-[#C58F60] bg-[#C58F60] text-white shadow-amber-900"
+                  : "bg-gray-200 shadow-gray-100 hover:bg-gray-300"
               }`}
               onClick={() => onChange(name, booleanValue)}
             >

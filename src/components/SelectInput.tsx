@@ -20,7 +20,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
         name={name}
         value={value}
         onChange={onChange}
-        className="w-full rounded-md border p-2"
+        className="w-full rounded-md border border-gray-300 p-2 shadow-inner shadow-gray-300 outline-gray-300"
       >
         {options.map((option, index) => (
           <option key={index} value={option}>

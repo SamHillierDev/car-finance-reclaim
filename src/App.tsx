@@ -36,7 +36,7 @@ function App() {
             </p>
             <button
               onClick={() => setShowForm(true)}
-              className="cursor-pointer rounded-md bg-[#C58F60] px-6 py-3 text-lg font-semibold text-white shadow-md transition-all hover:bg-[#B07D50]"
+              className="cursor-pointer rounded-md bg-[#C58F60] px-6 py-3 text-lg font-semibold text-white shadow-inner shadow-amber-400 transition-all hover:bg-[#B07D50]"
             >
               Find my agreements
             </button>

@@ -161,7 +161,7 @@ export default function ClaimForm({
                   <button
                     type="button"
                     onClick={handlePreviousStep}
-                    className="cursor-pointer rounded-md bg-gray-400 px-4 py-2 font-semibold text-white hover:bg-gray-500"
+                    className="cursor-pointer rounded-md bg-gray-400 px-4 py-2 font-semibold text-white shadow-inner shadow-gray-300 outline-gray-300 transition hover:bg-gray-500"
                   >
                     Back
                   </button>
@@ -170,9 +170,9 @@ export default function ClaimForm({
                   type="button"
                   onClick={handleNextStep}
                   disabled={!isStepValid()}
-                  className={`ml-auto rounded-md px-4 py-2 font-semibold text-white transition-all ${
+                  className={`ml-auto rounded-md px-4 py-2 font-semibold text-white shadow-inner outline-gray-300 transition-all ${
                     isStepValid()
-                      ? "cursor-pointer bg-[#C58F60] hover:bg-[#B07D50]"
+                      ? "cursor-pointer bg-[#C58F60] shadow-amber-400 hover:bg-[#B07D50]"
                       : "cursor-not-allowed bg-gray-400 opacity-50"
                   }`}
                 >
@@ -192,7 +192,7 @@ export default function ClaimForm({
                 <button
                   type="button"
                   onClick={handlePreviousStep}
-                  className="cursor-pointer rounded-md bg-gray-400 px-4 py-2 font-semibold text-white hover:bg-gray-500"
+                  className="cursor-pointer rounded-md bg-gray-400 px-4 py-2 font-semibold text-white shadow-inner shadow-gray-300 outline-gray-300 transition hover:bg-gray-500"
                 >
                   Back
                 </button>

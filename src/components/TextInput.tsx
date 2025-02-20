@@ -39,7 +39,7 @@ const TextInput: React.FC<TextInputProps> = ({
           value={value}
           onChange={onChange}
           placeholder={placeholder}
-          className={`w-full rounded-md border p-2 ${
+          className={`w-full rounded-md border p-2 shadow-inner shadow-gray-300 outline-gray-300 ${
             error ? "border-red-500" : "border-gray-300"
           } ${className} ${showGBFlag ? "rounded-l-none" : ""}`}
         />

@@ -58,7 +58,7 @@ const EmailTemplate: React.FC<EmailTemplateProps> = ({
             </p>
             <button
               onClick={handleCopy}
-              className="ml-2 flex cursor-pointer items-center gap-1 rounded-md bg-gray-200 px-2 py-1 text-sm text-gray-700 hover:bg-gray-300"
+              className="ml-2 flex cursor-pointer items-center gap-1 rounded-md bg-gray-200 px-2 py-1 text-sm text-gray-700 outline-gray-300 transition hover:bg-gray-300"
             >
               <FaRegClipboard className="text-lg" />{" "}
               {copied ? "Copied!" : "Copy"}
